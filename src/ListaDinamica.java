@@ -42,15 +42,44 @@ public class ListaDinamica {
 
     public void removerElemento(String elemento) {
         if(existeInicio()) {
-            //verificar existência
+            if(buscarElemento(elemento)) {
                 //removendo primeiro
-                if(this.inicio.getProx() != null) {
+                if(this.inicio.getConteudo().equals(elemento)) {
                     this.inicio = this.inicio.getProx();
+                } else if(this.inicio.getProx() != null) {
+                    No aux = this.inicio;
+                    do {
+                        if(aux.getProx().getConteudo().equals(elemento)) {
+                            aux.setProx(aux.getProx().getProx());
+                            return;
+                        }
+                        aux = aux.getProx();
+                    } while (aux != null);
                 } else {
                     this.inicio.setConteudo(null);
                 }
+
+                //removendo intermediário
+                //método de busca
+            }
+
         } else {
             System.out.println("Não existem elementos na lista.");
         }
     }
+
+    public boolean buscarElemento(String elemento) {
+        No aux = this.inicio;
+
+        do {
+            if(aux.getConteudo().equals(elemento)) {
+                System.out.println("Elemento " + elemento + " encontrado.");
+                return true;
+            }
+            aux = aux.getProx();
+        } while(aux != null);
+        System.out.println("Elemento " + elemento + " não encontrado!");
+        return false;
+    }
+
 }
