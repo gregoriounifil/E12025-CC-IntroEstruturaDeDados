@@ -84,51 +84,187 @@ public class ListaDinamica implements ListaOperacoes{
 
     @Override
     public int removerTodas(String elemento) {
-        return 0;
+        int removidos = 0;
+        while (existeInicio() && this.inicio.getConteudo().equals(elemento)) {
+            if(this.inicio.getProx() != null) {
+                this.inicio = this.inicio.getProx();
+            } else {
+                limpar();
+            }
+            removidos++;
+        }
+        No aux = this.inicio;
+        while (aux != null && aux.getProx() != null) {
+            if (aux.getProx().getConteudo().equals(elemento)) {
+                aux.setProx(aux.getProx().getProx());
+                removidos++;
+            } else {
+                aux =  aux.getProx();
+            }
+        }
+        System.out.println("Foram removidos" +  removidos);
+        return removidos;
     }
 
     @Override
     public int contar() {
-        return 0;
+        int cont = 0;
+        if(existeInicio()) {
+            No aux = this.inicio;
+            while (aux != null) {
+                cont++;
+                aux = aux.getProx();
+            }
+        }
+        return cont;
     }
 
     @Override
-    public int adicionarVarios(String[] elementos) {
-        return 0;
+    public void adicionarVarios(String[] elementos) {
+        for (int i = 0; i < elementos.length; i++) {
+            this.adicionarElemento(elementos[i]);
+        }
     }
 
     @Override
     public String obter(int indice) {
-        return "";
+        int cont = 0;
+        if (!existeInicio() && indice < 0) {
+            return null;
+        } else {
+            No aux = this.inicio;
+            while (aux != null && cont < indice) {
+                cont++;
+                aux = aux.getProx();
+            }
+            if (aux == null) {
+                System.out.println("Não existem elementos na lista.");
+                return null;
+            } else {
+                System.out.println("Elemento " + aux.getConteudo());
+                return aux.getConteudo();
+            }
+        }
     }
 
     @Override
     public boolean inserir(int indice, String elemento) {
+        if (indice < 0) return false;
+
+        No novo = new No(elemento);
+
+        if (indice == 0) {
+            novo.setProx(inicio);
+            inicio = novo;
+            return true;
+        }
+
+        No aux = inicio;
+        for (int i = 0; i < indice - 1 && aux != null; i++) {
+            aux = aux.getProx();
+        }
+
+        if (aux != null) {
+            novo.setProx(aux.getProx());
+            aux.setProx(novo);
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public String removerPorIndice(int indice) {
-        return "";
+        if (!existeInicio() || indice < 0) {
+            return null;
+        }
+
+        if (indice == 0) {
+            String removido = this.inicio.getConteudo();
+            if (this.inicio.getProx() != null) {
+                this.inicio = this.inicio.getProx();
+            } else {
+                limpar();
+            }
+            return removido;
+        }
+
+        No aux = this.inicio;
+        int cont = 0;
+
+        while (aux != null && aux.getProx() != null && cont < (indice - 1)) {
+            aux = aux.getProx();
+            cont++;
+        }
+
+        if (aux != null && aux.getProx() != null) {
+            String removido = aux.getProx().getConteudo();
+            aux.setProx(aux.getProx().getProx());
+            return removido;
+        }
+
+        return null;
     }
 
     @Override
     public void limpar() {
-
+        this.inicio.setConteudo(null);
+        this.inicio.setProx(null);
     }
 
     @Override
     public int ultimoIndiceDe(String elemento) {
-        return 0;
+        int indiceAtual = 0;
+        int ultimoIndice= -1;
+        if(!existeInicio()) {
+            return -1;
+        } else {
+            No aux = this.inicio;
+            while(aux != null) {
+                if(aux.getConteudo().equals(elemento)) {
+                    ultimoIndice = indiceAtual;
+                }
+                indiceAtual++;
+                aux = aux.getProx();
+            }
+        }
+        System.out.println("Ultimo indice: " + ultimoIndice);
+        return ultimoIndice;
     }
 
     @Override
     public int contarOcorrencias(String elemento) {
-        return 0;
+        int cont = 0;
+        if(!existeInicio()) {
+            return 0;
+        }  else {
+            No aux = this.inicio;
+            while (aux != null) {
+                if(aux.getConteudo().equals(elemento)) {
+                    cont += 1;
+                }
+                aux = aux.getProx();
+            }
+        }
+        System.out.println("Total de ocorrencias: " + cont);
+        return cont;
     }
 
     @Override
     public int substituir(String antigo, String novo) {
-        return 0;
+        int cont = 0;
+        if(!existeInicio()) {
+            return 0;
+        } else {
+            No aux = this.inicio;
+            while (aux != null) {
+                if (aux.getConteudo().equals(antigo)) {
+                    aux.setConteudo(novo);
+                    cont++;
+                }
+                aux = aux.getProx();
+            }
+        }
+        return cont;
     }
 }
