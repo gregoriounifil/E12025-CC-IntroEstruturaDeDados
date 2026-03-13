@@ -58,11 +58,11 @@ public class ListaSimples implements ListaOperacoes{
         }
     }
 
-    public int buscarElemento(String elemento){
+    public int buscarElemento(String elemento) {
         int i;
         if (!estaVazio()) {
             for (i = 0; i < this.lista.length; i++) {
-                if (this.lista[i].equals(elemento)) {
+                if (this.lista[i] != null && this.lista[i].equals(elemento)) {
                     return i;
                 }
             }

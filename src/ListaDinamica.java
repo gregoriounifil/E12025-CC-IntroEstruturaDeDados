@@ -120,10 +120,13 @@ public class ListaDinamica implements ListaOperacoes{
     }
 
     @Override
-    public void adicionarVarios(String[] elementos) {
+    public int adicionarVarios(String[] elementos) {
+        int cont = 0;
         for (int i = 0; i < elementos.length; i++) {
             this.adicionarElemento(elementos[i]);
+            cont++;
         }
+        return cont;
     }
 
     @Override
